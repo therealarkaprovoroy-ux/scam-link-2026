@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>THE POOKIE PROTOCOL</title>
+    <style>
+        :root {
+            --pookie-pink: #ff85a2;
+            --ribbon-red: #d90429;
+            --soft-cream: #fff5f5;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            background: var(--soft-cream);
+            font-family: 'Comic Sans MS', 'cursive', sans-serif;
+            overflow-x: hidden;
+            color: #4a4a4a;
+        }
+
+        /* Floating Elements Layer */
+        .float-layer {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .emoji { position: absolute; font-size: 2rem; animation: floatUp 6s infinite ease-in; opacity: 0.8; }
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Main Layout */
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .section {
+            background: white;
+            border: 3px solid var(--pookie-pink);
+            border-radius: 30px;
+            padding: 25px;
+            margin: 20px 0;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 10px 10px 0px var(--pookie-pink);
+        }
+
+        h1, h2 { color: var(--ribbon-red); text-align: center; }
+
+        /* About Author Section */
+        .author-box { border-left: 10px solid var(--pookie-pink); text-align: left; }
+        
+        /* Buttons */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 50px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .btn-main { background: var(--ribbon-red); color: white; box-shadow: 0 5px 15px rgba(217,4,41,0.4); }
+        .btn-secondary { background: var(--pookie-pink); color: white; }
+
+        /* The Frantic No Button */
+        #noBtn {
+            position: fixed;
+            z-index: 999;
+            background: #6c757d;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            border: none;
+            transition: 0.1s;
+        }
+
+        /* Ribbons */
+        .ribbon {
+            width: 100px; height: 30px;
+            background: var(--ribbon-red);
+            color: white;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            clip-path: polygon(0 0, 100% 0, 90% 50%, 100% 100%, 0 100%, 10% 50%);
+            margin: -40px auto 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="float-layer" id="pookieLayer"></div>
+
+    <audio id="bgMusic" loop>
+        <source src="https://www.pagalworld.com.se/files/download/id/2384" type="audio/mpeg">
+    </audio>
+
+    <div class="content-wrapper">
+        
+        <div class="section">
+            <div class="ribbon">TOP SECRET</div>
+            <h1>The Valentine Mission 🎀</h1>
+            <p>Scanning for the perfect human... Match found! 💖</p>
+            <button id="yesBtn" class="btn btn-main" onclick="onYes()">YES, I'LL BE YOUR VALENTINE!</button>
+            <button id="noBtn" onmouseover="dodge()" onclick="fail()">No</button>
+        </div>
+
+        <div class="section">
+            <h2>About My Valentine ✨</h2>
+            <p>She's the glitch in my matrix and the sun in my sky.</p>
+            <a href="https://www.instagram.com/riddhw1?igsh=MTYxcGQ3M3lrbmhsMA==" class="btn btn-secondary">Inspect Her Profile 🕵️‍♀️</a>
+        </div>
+
+        <div class="section author-box">
+            <h2>About the Author 🙋‍♂️</h2>
+            <p><strong>The Good:</strong> Has impeccable taste (obviously, look who he's asking), a heart of gold, and a legendary ability to remember the small things.</p>
+            <p><strong>The Bad:</strong> Occasionally stubborn, takes 3 hours to pick a movie, and is dangerously addicted to making you smile.</p>
+            <p><em>Verdict: Highly lovable, proceed with caution.</em></p>
+        </div>
+
+        <div class="section">
+            <h2>What Are We Gonna Do? 🍦</h2>
+            <p>I've pre-computed a set of high-romance activities.</p>
+            <a href="https://share.google/2BcgNdFCv37e8jt6I" class="btn btn-main">Open Date Manual 📂</a>
+        </div>
+
+    </div>
+
+    <script>
+        const layer = document.getElementById('pookieLayer');
+        const emojis = ['🐿️', '🐇', '🎈', '🌹', '🎀', '🫧', '✨', '🧸'];
+        const noBtn = document.getElementById('noBtn');
+        const music = document.getElementById('bgMusic');
+        let scale = 1;
+
+        // Create Flying Pookie Elements
+        function spawnPookie() {
+            const el = document.createElement('div');
+            el.className = 'emoji';
+            el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            layer.appendChild(el);
+            setTimeout(() => el.remove(), 7000);
+        }
+        setInterval(spawnPookie, 400);
+
+        function dodge() {
+            music.play();
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 50);
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+            
+            // Frantic vibration effect
+            noBtn.style.transform = `rotate(${Math.random() * 20 - 10}deg)`;
+            
+            scale += 0.2;
+            document.getElementById('yesBtn').style.transform = `scale(${scale})`;
+        }
+
+        function onYes() {
+            window.location.href = "https://in.pinterest.com/ideas/valentine-jeans-outfit/911401986372/";
+        }
+
+        function fail() {
+            window.location.href = "https://share.google/urSwHp7qszo1rXH71";
+        }
+
+        // Mobile touch bypass
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            dodge();
+        });
+    </script>
+</body>
+</html>
